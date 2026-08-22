@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Completas Menores</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>COMPLETAS MENORES</h1>
+    <p class="subtitle">Vladyka Benito</p>
+  </header>
+
+  <main class="content-container">
+    <div class="section-badge">INICIACIÓN</div>
+
+    <section class="step-card">
+      <span class="step-num">1</span>
+      <div class="step-body">
+        <p class="rubric">Sacerdote:</p>
+        <p>Bendito sea nuestro Dios, eternamente, ahora y siempre, y por los siglos de siglos.</p>
+      </div>
+    </section>
+
+    <section class="step-card">
+      <span class="step-num">2</span>
+      <div class="step-body">
+        <p class="rubric">Coro:</p>
+        <p>Amén. Gloria a ti, Dios nuestro, gloria a ti.</p>
+        <p>Rey celestial, Consolador, Espíritu de verdad, que estás en todo lugar, llenándolo todo, Tesoro de bienes y Dador de vida, ven a habitar en nosotros, purifícanos de toda mancha, y salva, Tú que eres bueno, nuestras almas.</p>
+      </div>
+    </section>
+
+    <section class="step-card">
+      <span class="step-num">3</span>
+      <div class="step-body">
+        <p class="instruction">Trisagio (tres veces):</p>
+        <p>Santo Dios, Santo Fuerte, Santo Inmortal, ten piedad de nosotros.</p>
+      </div>
+    </section>
+
+    <section class="step-card">
+      <span class="step-num">4</span>
+      <div class="step-body">
+        <p>Gloria al Padre y al Hijo y al Espíritu Santo, ahora y siempre, y por los siglos de los siglos. Amén.</p>
+        <p>Santísima Trinidad, ten piedad de nosotros. Señor, purifícanos de nuestros pecados. Maestro, perdona nuestras transgresiones. Santo, visítanos y cura nuestras dolencias, por tu nombre.</p>
+        <p class="instruction">Tres veces:</p>
+        <p>Señor, ten piedad.</p>
+        <p class="instruction">Doxología:</p>
+        <p>Gloria… Y ahora…</p>
+      </div>
+    </section>
+
+    <section class="step-card">
+      <span class="step-num">5</span>
+      <div class="step-body">
+        <p class="rubric">Padre Nuestro:</p>
+        <p>Padre nuestro, que estás en los cielos, santificado sea el tu nombre, venga a nosotros tu reino, hágase tu voluntad así en la tierra como en el cielo. El pan nuestro de cada día, dánosle hoy, y perdónanos nuestras deudas, así como nosotros perdonamos a nuestros deudores, y no nos dejes caer en la tentación, más líbranos del mal.</p>
+      </div>
+    </section>
+
+    <section class="step-card">
+      <span class="step-num">6</span>
+      <div class="step-body">
+        <p class="rubric">Sacerdote:</p>
+        <p>Porque tuyos son el reino y el poder y la gloria, del Padre, del Hijo y del Espíritu Santo, ahora y siempre, y por los siglos de los siglos.</p>
+        <p class="rubric">Lector:</p>
+        <p>Amén.</p>
+        <p class="instruction">Tres veces:</p>
+        <p>Señor, ten piedad.</p>
+        <p>Gloria al Padre y al Hijo y al Espíritu Santo, ahora y siempre, y por los siglos de los siglos. Amén.</p>
+      </div>
+    </section>
+
+    <section class="step-card">
+      <span class="step-num">7</span>
+      <div class="step-body">
+        <p class="instruction">Invitatorio:</p>
+        <p>Venid, adoremos y postrémonos ante Dios nuestro Rey.</p>
+        <p>Venid, adoremos y postrémonos ante Cristo, nuestro Rey y nuestro Dios.</p>
+        <p>Venid, adoremos y postrémonos ante el mismo Cristo, nuestro Rey y nuestro Dios.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+  </script>
+</body>
+</html>

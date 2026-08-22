@@ -1,0 +1,100 @@
+:root {
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-main: #e0e0e0;
+  --rubric-color: #c94a4a;
+  --instruction-color: #8c8c8c;
+  --accent-gold: #c5a059;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Georgia, serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.6;
+  padding-bottom: 40px;
+}
+
+.app-header {
+  text-align: center;
+  padding: 2.5rem 1rem 1.5rem;
+  background: linear-gradient(180deg, #1c1815 0%, var(--bg-color) 100%);
+  border-bottom: 1px solid #2a2520;
+}
+
+.app-header h1 {
+  font-size: 1.5rem;
+  letter-spacing: 0.12em;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: #a0a0a0;
+  margin-top: 0.3rem;
+}
+
+.content-container {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.section-badge {
+  display: inline-block;
+  background-color: var(--accent-gold);
+  color: #121212;
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+}
+
+.step-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  border-left: 3px solid var(--accent-gold);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.step-num {
+  font-weight: bold;
+  color: var(--accent-gold);
+  font-size: 1.1rem;
+  min-width: 20px;
+}
+
+.step-body p {
+  margin-bottom: 0.6rem;
+}
+
+.step-body p:last-child {
+  margin-bottom: 0;
+}
+
+.rubric {
+  color: var(--rubric-color);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.instruction {
+  color: var(--instruction-color);
+  font-style: italic;
+  font-size: 0.85rem;
+}
