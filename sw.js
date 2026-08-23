@@ -1,4 +1,4 @@
-const CACHE_NAME = 'completas-v1';
+const CACHE_NAME = 'completas-v2';
 const ASSETS = [
   './',
   './index.html',
