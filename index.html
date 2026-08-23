@@ -18,14 +18,30 @@
     <p class="subtitle">Vladyka Benito</p>
   </header>
 
+  <!-- BARRA DE BOTONES EN UNA SOLA LÍNEA (STICKY EN PANTALLA) -->
+  <nav class="tabs-nav-bar">
+    <div class="tabs-container">
+      <button class="nav-btn active" id="btn-iniciacion" onclick="switchSection('sec-iniciacion', 'btn-iniciacion')">
+        1. INICIACIÓN
+      </button>
+      <button class="nav-btn" id="btn-salmos" onclick="switchSection('sec-salmos', 'btn-salmos')">
+        2. SALMOS
+      </button>
+      <button class="nav-btn" id="btn-conclusion" onclick="switchSection('sec-conclusion', 'btn-conclusion')">
+        3. CONCLUSIÓN
+      </button>
+      <button class="nav-btn" id="btn-despedida" onclick="switchSection('sec-despedida', 'btn-despedida')">
+        4. DESPEDIDA
+      </button>
+    </div>
+  </nav>
+
   <main class="content-container">
 
-    <!-- SECCIÓN 1: INICIACIÓN -->
-    <button class="accordion-btn active" onclick="toggleSection('sec-iniciacion', this)">
-      <span class="btn-title">1. INICIACIÓN (Pasos 1 - 7)</span>
-      <span class="arrow">▼</span>
-    </button>
-    <div id="sec-iniciacion" class="accordion-content show">
+    <!-- SECCIÓN 1: INICIACIÓN (Pasos 1 al 7) -->
+    <div id="sec-iniciacion" class="tab-content show">
+      <div class="section-indicator">INICIACIÓN · Pasos 1 - 7</div>
+
       <section class="step-card">
         <span class="step-num">1</span>
         <div class="step-body">
@@ -95,12 +111,10 @@
       </section>
     </div>
 
-    <!-- SECCIÓN 2: SALMOS -->
-    <button class="accordion-btn" onclick="toggleSection('sec-salmos', this)">
-      <span class="btn-title">2. SALMOS (Pasos 8 - 11)</span>
-      <span class="arrow">▼</span>
-    </button>
-    <div id="sec-salmos" class="accordion-content">
+    <!-- SECCIÓN 2: SALMOS (Pasos 8 al 11) -->
+    <div id="sec-salmos" class="tab-content">
+      <div class="section-indicator">SALMOS · Pasos 8 - 11</div>
+
       <section class="step-card">
         <span class="step-num">8</span>
         <div class="step-body">
@@ -161,12 +175,10 @@
       </section>
     </div>
 
-    <!-- SECCIÓN 3: CONCLUSIÓN -->
-    <button class="accordion-btn" onclick="toggleSection('sec-conclusion', this)">
-      <span class="btn-title">3. CONCLUSIÓN (Pasos 12 - 15)</span>
-      <span class="arrow">▼</span>
-    </button>
-    <div id="sec-conclusion" class="accordion-content">
+    <!-- SECCIÓN 3: CONCLUSIÓN (Pasos 12 al 15) -->
+    <div id="sec-conclusion" class="tab-content">
+      <div class="section-indicator">CONCLUSIÓN · Pasos 12 - 15</div>
+
       <section class="step-card">
         <span class="step-num">12</span>
         <div class="step-body">
@@ -220,12 +232,10 @@
       </section>
     </div>
 
-    <!-- SECCIÓN 4: DESPEDIDA -->
-    <button class="accordion-btn" onclick="toggleSection('sec-despedida', this)">
-      <span class="btn-title">4. DESPEDIDA (Conclusión Litúrgica)</span>
-      <span class="arrow">▼</span>
-    </button>
-    <div id="sec-despedida" class="accordion-content">
+    <!-- SECCIÓN 4: DESPEDIDA (Pasos 16 al 19) -->
+    <div id="sec-despedida" class="tab-content">
+      <div class="section-indicator">DESPEDIDA · Conclusión Litúrgica</div>
+
       <section class="step-card">
         <span class="step-num">16</span>
         <div class="step-body">
@@ -290,17 +300,28 @@
   </main>
 
   <script>
-    function toggleSection(id, btn) {
-      const content = document.getElementById(id);
-      const isOpen = content.classList.contains('show');
-      
-      if (isOpen) {
-        content.classList.remove('show');
-        btn.classList.remove('active');
-      } else {
-        content.classList.add('show');
-        btn.classList.add('active');
+    function switchSection(sectionId, btnId) {
+      // 1. Ocultar todos los bloques de contenido
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => content.classList.remove('show'));
+
+      // 2. Desactivar todos los botones
+      const buttons = document.querySelectorAll('.nav-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      // 3. Mostrar la sección seleccionada y activar su botón
+      const targetContent = document.getElementById(sectionId);
+      const targetButton = document.getElementById(btnId);
+
+      if (targetContent) {
+        targetContent.classList.add('show');
       }
+      if (targetButton) {
+        targetButton.classList.add('active');
+      }
+
+      // 4. Desplazar suavemente al inicio del contenido
+      window.scrollTo({ top: 110, behavior: 'smooth' });
     }
 
     if ('serviceWorker' in navigator) {

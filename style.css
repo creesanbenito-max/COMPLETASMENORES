@@ -1,8 +1,10 @@
 :root {
   --bg-color: #121212;
   --card-bg: #1e1e1e;
-  --btn-bg: #25201b;
-  --btn-active-bg: #352c22;
+  --nav-bar-bg: #181512;
+  --btn-inactive-bg: #26211c;
+  --btn-active-bg: #d4af37;
+  --btn-active-text: #121212;
   --text-main: #e0e0e0;
   --rubric-color: #e57373;
   --instruction-color: #9e9e9e;
@@ -26,88 +28,119 @@ body {
 
 .app-header {
   text-align: center;
-  padding: 2.2rem 1rem 1.4rem;
+  padding: 2rem 1rem 1.2rem;
   background: linear-gradient(180deg, #1c1815 0%, var(--bg-color) 100%);
-  border-bottom: 1px solid #2a2520;
 }
 
 .app-header h1 {
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   letter-spacing: 0.12em;
   color: var(--accent-gold);
   text-transform: uppercase;
 }
 
 .subtitle {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-style: italic;
   color: #a0a0a0;
-  margin-top: 0.3rem;
+  margin-top: 0.25rem;
 }
 
+/* BARRA DE NAVEGACIÓN HORIZONTAL EN UNA SOLA LÍNEA */
+.tabs-nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--nav-bar-bg);
+  border-top: 1px solid #2e261d;
+  border-bottom: 2px solid #3d3326;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  padding: 0.6rem 0.5rem;
+}
+
+.tabs-container {
+  display: flex;
+  gap: 0.4rem;
+  max-width: 680px;
+  margin: 0 auto;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabs-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+/* BOTONES INDIVIDUALES */
+.nav-btn {
+  flex: 1 0 auto;
+  background-color: var(--btn-inactive-bg);
+  color: #d6cfc7;
+  border: 1px solid #4a3e2f;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+
+.nav-btn:active {
+  transform: scale(0.96);
+}
+
+.nav-btn.active {
+  background-color: var(--btn-active-bg);
+  color: var(--btn-active-text);
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+/* CONTENEDOR DE CONTENIDO */
 .content-container {
   max-width: 680px;
   margin: 0 auto;
   padding: 1.2rem 1rem;
 }
 
-/* Accordion Buttons */
-.accordion-btn {
-  width: 100%;
-  background-color: var(--btn-bg);
-  border: 1px solid #3d3429;
-  border-left: 4px solid var(--accent-gold);
+.section-indicator {
+  display: inline-block;
+  background-color: rgba(212, 175, 55, 0.15);
   color: var(--accent-gold);
-  padding: 1rem 1.2rem;
-  text-align: left;
-  font-size: 1rem;
+  border: 1px solid var(--accent-gold);
+  font-size: 0.75rem;
   font-weight: bold;
-  letter-spacing: 0.05em;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.7rem;
+  border-radius: 4px;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
 }
 
-.accordion-btn:active {
-  transform: scale(0.98);
-}
-
-.accordion-btn.active {
-  background-color: var(--btn-active-bg);
-  border-color: var(--accent-gold);
-}
-
-.accordion-btn .arrow {
-  font-size: 0.85rem;
-  transition: transform 0.3s ease;
-  color: var(--accent-gold);
-}
-
-.accordion-btn.active .arrow {
-  transform: rotate(180deg);
-}
-
-/* Accordion Content */
-.accordion-content {
+/* PESTAÑAS (TAB CONTENT) */
+.tab-content {
   display: none;
-  padding-top: 0.4rem;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-.accordion-content.show {
+.tab-content.show {
   display: block;
 }
 
-/* Step Cards */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* TARJETAS DE CADA PASO */
 .step-card {
   background-color: var(--card-bg);
   border-radius: 8px;
-  padding: 1rem 1.1rem;
+  padding: 1.1rem 1.1rem;
   margin-bottom: 0.9rem;
   display: flex;
   gap: 1rem;
