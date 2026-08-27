@@ -15,10 +15,10 @@
 
   <header class="app-header">
     <h1>COMPLETAS MENORES</h1>
-    <p class="subtitle">Vladyka + Benito - Colombia</p>
+    <p class="subtitle">Vladyka Benito</p>
   </header>
 
-  <!-- BARRA DE BOTONES EN UNA SOLA LÍNEA (STICKY EN PANTALLA) -->
+  <!-- BARRA DE BOTONES SUPERIOR -->
   <nav class="tabs-nav-bar">
     <div class="tabs-container">
       <button class="nav-btn active" id="btn-iniciacion" onclick="switchSection('sec-iniciacion', 'btn-iniciacion')">
@@ -40,7 +40,12 @@
 
     <!-- SECCIÓN 1: INICIACIÓN (Pasos 1 al 7) -->
     <div id="sec-iniciacion" class="tab-content show">
-      <div class="section-indicator">INICIACIÓN · Pasos 1 - 7</div>
+      <div class="indicator-row">
+        <div class="section-indicator">INICIACIÓN · Pasos 1 - 7</div>
+        <button class="audio-btn" onclick="togglePlayText('sec-iniciacion', this)">
+          <span class="icon">🔊</span> <span class="label">Escuchar</span>
+        </button>
+      </div>
 
       <section class="step-card">
         <span class="step-num">1</span>
@@ -113,7 +118,12 @@
 
     <!-- SECCIÓN 2: SALMOS (Pasos 8 al 11) -->
     <div id="sec-salmos" class="tab-content">
-      <div class="section-indicator">SALMOS · Pasos 8 - 11</div>
+      <div class="indicator-row">
+        <div class="section-indicator">SALMOS · Pasos 8 - 11</div>
+        <button class="audio-btn" onclick="togglePlayText('sec-salmos', this)">
+          <span class="icon">🔊</span> <span class="label">Escuchar</span>
+        </button>
+      </div>
 
       <section class="step-card">
         <span class="step-num">8</span>
@@ -177,7 +187,12 @@
 
     <!-- SECCIÓN 3: CONCLUSIÓN (Pasos 12 al 15) -->
     <div id="sec-conclusion" class="tab-content">
-      <div class="section-indicator">CONCLUSIÓN · Pasos 12 - 15</div>
+      <div class="indicator-row">
+        <div class="section-indicator">CONCLUSIÓN · Pasos 12 - 15</div>
+        <button class="audio-btn" onclick="togglePlayText('sec-conclusion', this)">
+          <span class="icon">🔊</span> <span class="label">Escuchar</span>
+        </button>
+      </div>
 
       <section class="step-card">
         <span class="step-num">12</span>
@@ -234,7 +249,12 @@
 
     <!-- SECCIÓN 4: DESPEDIDA (Pasos 16 al 19) -->
     <div id="sec-despedida" class="tab-content">
-      <div class="section-indicator">DESPEDIDA · Conclusión Litúrgica</div>
+      <div class="indicator-row">
+        <div class="section-indicator">DESPEDIDA · Conclusión Litúrgica</div>
+        <button class="audio-btn" onclick="togglePlayText('sec-despedida', this)">
+          <span class="icon">🔊</span> <span class="label">Escuchar</span>
+        </button>
+      </div>
 
       <section class="step-card">
         <span class="step-num">16</span>
@@ -301,27 +321,93 @@
 
   <script>
     function switchSection(sectionId, btnId) {
-      // 1. Ocultar todos los bloques de contenido
+      // Detener audio al cambiar de sección
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        resetAudioButtons();
+      }
+
+      // Ocultar contenidos
       const contents = document.querySelectorAll('.tab-content');
       contents.forEach(content => content.classList.remove('show'));
 
-      // 2. Desactivar todos los botones
+      // Desactivar botones de navegación
       const buttons = document.querySelectorAll('.nav-btn');
       buttons.forEach(btn => btn.classList.remove('active'));
 
-      // 3. Mostrar la sección seleccionada y activar su botón
+      // Mostrar seleccionado
       const targetContent = document.getElementById(sectionId);
       const targetButton = document.getElementById(btnId);
 
-      if (targetContent) {
-        targetContent.classList.add('show');
-      }
-      if (targetButton) {
-        targetButton.classList.add('active');
+      if (targetContent) targetContent.classList.add('show');
+      if (targetButton) targetButton.classList.add('active');
+
+      window.scrollTo({ top: 110, behavior: 'smooth' });
+    }
+
+    function togglePlayText(containerId, btn) {
+      if (!('speechSynthesis' in window)) {
+        alert("La reproducción de voz no está soportada en este navegador.");
+        return;
       }
 
-      // 4. Desplazar suavemente al inicio del contenido
-      window.scrollTo({ top: 110, behavior: 'smooth' });
+      // Si ya está reproduciendo esta misma sección, detener
+      if (window.speechSynthesis.speaking && btn.classList.contains('playing')) {
+        window.speechSynthesis.cancel();
+        resetAudioButtons();
+        return;
+      }
+
+      // Cancelar cualquier lectura previa
+      window.speechSynthesis.cancel();
+      resetAudioButtons();
+
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      const textCards = container.querySelectorAll('.step-body');
+      let fullText = "";
+      textCards.forEach(card => {
+        fullText += card.innerText + ".
+ ";
+      });
+
+      if (!fullText.trim()) return;
+
+      const utterance = new SpeechSynthesisUtterance(fullText);
+      utterance.lang = 'es-ES';
+      utterance.rate = 0.95; // Ritmo pausado litúrgico
+
+      const voices = window.speechSynthesis.getVoices();
+      const esVoice = voices.find(v => v.lang.startsWith('es'));
+      if (esVoice) {
+        utterance.voice = esVoice;
+      }
+
+      utterance.onstart = () => {
+        btn.classList.add('playing');
+        btn.querySelector('.icon').textContent = '⏹️';
+        btn.querySelector('.label').textContent = 'Detener';
+      };
+
+      utterance.onend = () => {
+        resetAudioButtons();
+      };
+
+      utterance.onerror = () => {
+        resetAudioButtons();
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function resetAudioButtons() {
+      const buttons = document.querySelectorAll('.audio-btn');
+      buttons.forEach(b => {
+        b.classList.remove('playing');
+        b.querySelector('.icon').textContent = '🔊';
+        b.querySelector('.label').textContent = 'Escuchar';
+      });
     }
 
     if ('serviceWorker' in navigator) {
