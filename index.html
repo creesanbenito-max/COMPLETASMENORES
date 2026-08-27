@@ -2,14 +2,197 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#121212">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Completas Menores</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
-  <link rel="apple-touch-icon" href="icon-192.png">
+  <style>
+    :root {
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --nav-bg: #1a1612;
+      --btn-bg: #2a241d;
+      --gold: #d4af37;
+      --text-main: #e0e0e0;
+      --rubric: #e57373;
+      --instruction: #9e9e9e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: text;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Georgia, serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    .app-header {
+      text-align: center;
+      padding: 1.8rem 1rem 1rem;
+      background: linear-gradient(180deg, #201a14 0%, var(--bg-color) 100%);
+    }
+
+    .app-header h1 {
+      font-size: 1.4rem;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      font-style: italic;
+      color: #a0a0a0;
+      margin-top: 0.2rem;
+    }
+
+    /* BARRA FIJA SUPERIOR */
+    .nav-bar {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background-color: var(--nav-bg);
+      border-top: 1px solid #3d3326;
+      border-bottom: 2px solid var(--gold);
+      padding: 0.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    }
+
+    .nav-scroll {
+      display: flex;
+      gap: 0.4rem;
+      max-width: 650px;
+      margin: 0 auto;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-button {
+      flex: 1 0 auto;
+      background: var(--btn-bg);
+      color: #cfc7bc;
+      border: 1px solid #4a3e2f;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.78rem;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      outline: none;
+    }
+
+    .tab-button.is-active {
+      background: var(--gold);
+      color: #121212;
+      border-color: var(--gold);
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+    }
+
+    /* CONTENEDOR */
+    .main-wrapper {
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .badge-tag {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .btn-audio {
+      background: #25201b;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      padding: 0.35rem 0.8rem;
+      font-size: 0.78rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .btn-audio.is-playing {
+      background: var(--rubric);
+      color: #ffffff;
+      border-color: var(--rubric);
+    }
+
+    /* PESTAÑAS */
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.is-visible {
+      display: block;
+    }
+
+    /* TARJETAS LITÚRGICAS */
+    .card-step {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.8rem;
+      display: flex;
+      gap: 0.8rem;
+      border-left: 3px solid #3d3326;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .step-index {
+      font-weight: bold;
+      color: var(--gold);
+      font-size: 1.05rem;
+      min-width: 20px;
+    }
+
+    .step-content p {
+      margin-bottom: 0.5rem;
+    }
+
+    .step-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .rubric {
+      color: var(--rubric);
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .instruction {
+      color: var(--instruction);
+      font-style: italic;
+      font-size: 0.85rem;
+    }
+  </style>
 </head>
 <body>
 
@@ -18,63 +201,53 @@
     <p class="subtitle">Vladyka Benito</p>
   </header>
 
-  <!-- BARRA DE NAVEGACIÓN SUPERIOR EN UNA SOLA LÍNEA -->
-  <nav class="tabs-nav-bar">
-    <div class="tabs-container">
-      <button type="button" class="nav-btn active" data-target="sec-iniciacion">
-        1. INICIACIÓN
-      </button>
-      <button type="button" class="nav-btn" data-target="sec-salmos">
-        2. SALMOS
-      </button>
-      <button type="button" class="nav-btn" data-target="sec-conclusion">
-        3. CONCLUSIÓN
-      </button>
-      <button type="button" class="nav-btn" data-target="sec-despedida">
-        4. DESPEDIDA
-      </button>
+  <!-- NAVEGACIÓN DIRECTA -->
+  <nav class="nav-bar">
+    <div class="nav-scroll">
+      <button class="tab-button is-active" id="btn-tab-1">1. INICIACIÓN</button>
+      <button class="tab-button" id="btn-tab-2">2. SALMOS</button>
+      <button class="tab-button" id="btn-tab-3">3. CONCLUSIÓN</button>
+      <button class="tab-button" id="btn-tab-4">4. DESPEDIDA</button>
     </div>
   </nav>
 
-  <main class="content-container">
+  <main class="main-wrapper">
 
-    <!-- SECCIÓN 1: INICIACIÓN (Pasos 1 al 7) -->
-    <div id="sec-iniciacion" class="tab-content show">
-      <div class="indicator-row">
-        <div class="section-indicator">INICIACIÓN · Pasos 1 - 7</div>
-        <button type="button" class="audio-btn" data-audio-target="sec-iniciacion">
-          <span class="icon">🔊</span> <span class="label">Escuchar</span>
-        </button>
+    <!-- BLOQUE 1: INICIACIÓN -->
+    <div class="tab-pane is-visible" id="pane-1">
+      <div class="section-header-row">
+        <span class="badge-tag">INICIACIÓN · Pasos 1 - 7</span>
+        <button class="btn-audio" id="audio-btn-1">🔊 <span>Escuchar</span></button>
       </div>
 
-      <section class="step-card">
-        <span class="step-num">1</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">1</span>
+        <div class="step-content">
           <p class="rubric">Sacerdote:</p>
           <p>Bendito sea nuestro Dios, eternamente, ahora y siempre, y por los siglos de siglos.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">2</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">2</span>
+        <div class="step-content">
           <p class="rubric">Coro:</p>
           <p>Amén. Gloria a ti, Dios nuestro, gloria a ti.</p>
           <p>Rey celestial, Consolador, Espíritu de verdad, que estás en todo lugar, llenándolo todo, Tesoro de bienes y Dador de vida, ven a habitar en nosotros, purifícanos de toda mancha, y salva, Tú que eres bueno, nuestras almas.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">3</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">3</span>
+        <div class="step-content">
           <p class="instruction">Trisagio (tres veces):</p>
           <p>Santo Dios, Santo Fuerte, Santo Inmortal, ten piedad de nosotros.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">4</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">4</span>
+        <div class="step-content">
           <p>Gloria al Padre y al Hijo y al Espíritu Santo, ahora y siempre, y por los siglos de los siglos. Amén.</p>
           <p>Santísima Trinidad, ten piedad de nosotros. Señor, purifícanos de nuestros pecados. Maestro, perdona nuestras transgresiones. Santo, visítanos y cura nuestras dolencias, por tu nombre.</p>
           <p class="instruction">Tres veces:</p>
@@ -82,19 +255,19 @@
           <p class="instruction">Doxología:</p>
           <p>Gloria… Y ahora…</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">5</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">5</span>
+        <div class="step-content">
           <p class="rubric">Padre Nuestro:</p>
           <p>Padre nuestro, que estás en los cielos, santificado sea el tu nombre, venga a nosotros tu reino, hágase tu voluntad así en la tierra como en el cielo. El pan nuestro de cada día, dánosle hoy, y perdónanos nuestras deudas, así como nosotros perdonamos a nuestros deudores, y no nos dejes caer en la tentación, más líbranos del mal.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">6</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">6</span>
+        <div class="step-content">
           <p class="rubric">Sacerdote:</p>
           <p>Porque tuyos son el reino y el poder y la gloria, del Padre, del Hijo y del Espíritu Santo, ahora y siempre, y por los siglos de los siglos.</p>
           <p class="rubric">Lector:</p>
@@ -103,31 +276,29 @@
           <p>Señor, ten piedad.</p>
           <p>Gloria al Padre y al Hijo y al Espíritu Santo, ahora y siempre, y por los siglos de los siglos. Amén.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">7</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">7</span>
+        <div class="step-content">
           <p class="instruction">Invitatorio:</p>
           <p>Venid, adoremos y postrémonos ante Dios nuestro Rey.</p>
           <p>Venid, adoremos y postrémonos ante Cristo, nuestro Rey y nuestro Dios.</p>
           <p>Venid, adoremos y postrémonos ante el mismo Cristo, nuestro Rey y nuestro Dios.</p>
         </div>
-      </section>
+      </div>
     </div>
 
-    <!-- SECCIÓN 2: SALMOS (Pasos 8 al 11) -->
-    <div id="sec-salmos" class="tab-content">
-      <div class="indicator-row">
-        <div class="section-indicator">SALMOS · Pasos 8 - 11</div>
-        <button type="button" class="audio-btn" data-audio-target="sec-salmos">
-          <span class="icon">🔊</span> <span class="label">Escuchar</span>
-        </button>
+    <!-- BLOQUE 2: SALMOS -->
+    <div class="tab-pane" id="pane-2">
+      <div class="section-header-row">
+        <span class="badge-tag">SALMOS · Pasos 8 - 11</span>
+        <button class="btn-audio" id="audio-btn-2">🔊 <span>Escuchar</span></button>
       </div>
 
-      <section class="step-card">
-        <span class="step-num">8</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">8</span>
+        <div class="step-content">
           <p class="rubric">Salmo 50 (Miserere):</p>
           <p>Ten piedad de mí, oh Dios, según tu gran misericordia; y según la multitud de tus piedades, borra mi iniquidad.</p>
           <p>Lávame más y más de mi maldad, y límpiame de mi pecado. Porque yo reconozco mis rebeliones, y mi pecado está siempre delante de mí.</p>
@@ -141,22 +312,22 @@
           <p>Los sacrificios de Dios son el espíritu quebrantado; al corazón contrito y humillado no despreciarás tú, oh Dios. Haz bien con tu benevolencia a Sión; edifica los muros de Jerusalén.</p>
           <p>Entonces te agradarán los sacrificios de justicia, el holocausto u ofrenda del todo quemada; entonces ofrecerán becerros sobre tu altar.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">9</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">9</span>
+        <div class="step-content">
           <p class="rubric">Salmo 69:</p>
           <p>Oh Dios, acude a librarme; apresúrate, Señor, a socorrerme.</p>
           <p>Sean avergonzados y confundidos los que buscan mi vida; sean vueltos atrás y avergonzados los que mi mal desean.</p>
           <p>Sean vueltos atrás, en pago de su afrenta, los que dicen: ¡Ah, ah! Gócense y alégrense en ti todos los que te buscan, y digan siempre los que aman tu salvación: Engrandecido sea Dios.</p>
           <p>Yo estoy afligido y menesteroso; apresúrate a mí, oh Dios. Ayuda mía y mi libertador eres tú; Señor, no te detengas.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">10</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">10</span>
+        <div class="step-content">
           <p class="rubric">Salmo 142:</p>
           <p>Señor, oye mi oración, escucha mis ruegos por tu fidelidad; respóndeme por tu justicia. Y no entres en juicio con tu siervo; porque no se justificará delante de ti ningún ser viviente.</p>
           <p>Porque ha perseguido el enemigo mi alma; ha postrado en tierra mi vida; me ha hecho habitar en tinieblas como los ya muertos de mucho tiempo.</p>
@@ -166,11 +337,11 @@
           <p>Líbrame de mis enemigos, Señor; en ti me refugio. Enséñame a hacer tu voluntad, porque tú eres mi Dios; tu buen espíritu me guíe a tierra de rectitud.</p>
           <p>Por tu nombre, Señor, me vivificarás; por tu justicia sacarás mi alma de angustia. Y por tu misericordia disiparás a mis enemigos, y destruirás a todos los adversarios de mi alma, porque yo soy tu siervo.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">11</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">11</span>
+        <div class="step-content">
           <p class="rubric">Doxología Menor (Lector):</p>
           <p>Gloria a Dios en las alturas, y en la tierra paz, buena voluntad para con los hombres.</p>
           <p>Te alabamos, te bendecimos, te adoramos, te glorificamos, te damos gracias por tu gran gloria.</p>
@@ -182,21 +353,19 @@
           <p>Sea tu misericordia, Señor, sobre nosotros, según hemos esperado en ti. Bendito eres, Señor, enséñame tus preceptos. Bendito eres, Soberano, hazme comprender tus mandamientos. Bendito eres, Santo, ilumíname con tus justificaciones.</p>
           <p>Señor, tu misericordia es para siempre; no desprecies la obra de tus manos. A ti te corresponde la alabanza, a ti te corresponde el cántico, a ti la gloria corresponde: al Padre, al Hijo y al Espíritu Santo, ahora y siempre, y por los siglos de los siglos. Amén.</p>
         </div>
-      </section>
+      </div>
     </div>
 
-    <!-- SECCIÓN 3: CONCLUSIÓN (Pasos 12 al 15) -->
-    <div id="sec-conclusion" class="tab-content">
-      <div class="indicator-row">
-        <div class="section-indicator">CONCLUSIÓN · Pasos 12 - 15</div>
-        <button type="button" class="audio-btn" data-audio-target="sec-conclusion">
-          <span class="icon">🔊</span> <span class="label">Escuchar</span>
-        </button>
+    <!-- BLOQUE 3: CONCLUSIÓN -->
+    <div class="tab-pane" id="pane-3">
+      <div class="section-header-row">
+        <span class="badge-tag">CONCLUSIÓN · Pasos 12 - 15</span>
+        <button class="btn-audio" id="audio-btn-3">🔊 <span>Escuchar</span></button>
       </div>
 
-      <section class="step-card">
-        <span class="step-num">12</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">12</span>
+        <div class="step-content">
           <p class="rubric">El Símbolo de la Fe (Credo):</p>
           <p>Creo en un solo Dios, Padre Todopoderoso, Creador del cielo y de la tierra, de todo lo visible y lo invisible.</p>
           <p>Y en un solo Señor Jesucristo, Hijo Unigénito de Dios, nacido del Padre antes de todos los siglos: Luz de Luz, Dios verdadero de Dios verdadero, engendrado, no creado, de la misma naturaleza del Padre, por quien todo fue hecho;</p>
@@ -206,11 +375,11 @@
           <p>Y en el Espíritu Santo, Señor y Dador de vida, que procede del Padre, que con el Padre y el Hijo recibe una misma adoración y gloria, y que habló por los profetas.</p>
           <p>En la Iglesia que es una, santa, católica y apostólica. Confieso un solo bautismo para el perdón de los pecados. Espero la resurrección de los muertos y la vida del siglo venidero. Amén.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">13</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">13</span>
+        <div class="step-content">
           <p class="rubric">Cánticos y Teotokia:</p>
           <p>Dios con nosotros, sabedlo pueblos todos y someteos: porque Dios está con nosotros.</p>
           <p>Escuchad hasta los confines de la tierra: porque Dios está con nosotros.</p>
@@ -223,42 +392,40 @@
           <p>Nuestros venerables y teóforos padres, pastores y maestros del universo, interceded por nosotros pecadores.</p>
           <p>Fuerza invencible, incomprensible y divina de la preciosa y vivificante Cruz, no nos desampares a nosotros pecadores.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">14</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">14</span>
+        <div class="step-content">
           <p class="rubric">Oración de San Efrén el Sirio:</p>
           <p>¡Señor y Soberano de mi vida! No me des espíritu de pereza, de desaliento, de ambición de poder ni de vanas palabras. <span class="instruction">(Postración)</span></p>
           <p>Sino concédeme, a mí, tu siervo, espíritu de pureza, de humildad, de paciencia y de amor. <span class="instruction">(Postración)</span></p>
           <p>¡Sí, Señor y Rey! Concédeme ver mis propias faltas y no juzgar a mi hermano; porque Tú eres bendito por los siglos de los siglos. Amén. <span class="instruction">(Postración)</span></p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">15</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">15</span>
+        <div class="step-content">
           <p class="rubric">Oración de San Basilio el Grande:</p>
           <p>Señor, Señor, que nos libras de toda saeta que vuela de día, líbranos también de todo tropiezo que anda en las tinieblas. Acepta el alzar de nuestras manos como sacrificio vespertino.</p>
           <p>Haznos dignos de pasar el curso de la noche sin reproche, inmunes de tentaciones; y líbranos de toda turbación y temor que nos pueda venir del diablo.</p>
           <p>Concede a nuestras almas la compunción y a nuestros pensamientos el cuidado del examen de tu juicio temible e imparcial. Traspasa nuestros cuerpos con tu temor, y adormece nuestros miembros terrenales, para que incluso en el sosiego del sueño seamos iluminados por la contemplación de tus juicios.</p>
           <p>Aparta de nosotros todo sueño impropio y toda concupiscencia dañina. Levántanos a la hora de la oración afianzados en la fe y perseverantes en tus mandamientos, por el beneplácito y la bondad de tu Hijo Unigénito, con quien eres bendito, junto con tu Santísimo, Bueno y Vivificante Espíritu, ahora y siempre, y por los siglos de los siglos. Amén.</p>
         </div>
-      </section>
+      </div>
     </div>
 
-    <!-- SECCIÓN 4: DESPEDIDA (Pasos 16 al 19) -->
-    <div id="sec-despedida" class="tab-content">
-      <div class="indicator-row">
-        <div class="section-indicator">DESPEDIDA · Conclusión Litúrgica</div>
-        <button type="button" class="audio-btn" data-audio-target="sec-despedida">
-          <span class="icon">🔊</span> <span class="label">Escuchar</span>
-        </button>
+    <!-- BLOQUE 4: DESPEDIDA -->
+    <div class="tab-pane" id="pane-4">
+      <div class="section-header-row">
+        <span class="badge-tag">DESPEDIDA · Conclusión Litúrgica</span>
+        <button class="btn-audio" id="audio-btn-4">🔊 <span>Escuchar</span></button>
       </div>
 
-      <section class="step-card">
-        <span class="step-num">16</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">16</span>
+        <div class="step-content">
           <p class="instruction">Trisagio Final:</p>
           <p>Santo Dios, Santo Fuerte, Santo Inmortal, ten piedad de nosotros. <span class="instruction">(tres veces)</span></p>
           <p>Gloria al Padre y al Hijo y al Espíritu Santo, ahora y siempre, y por los siglos de los siglos. Amén.</p>
@@ -269,11 +436,11 @@
           <p>Gloria… Y ahora…</p>
           <p>Padre nuestro, que estás en los cielos...</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">17</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">17</span>
+        <div class="step-content">
           <p class="rubric">Sacerdote:</p>
           <p>Porque tuyos son el reino y el poder y la gloria, del Padre, del Hijo y del Espíritu Santo, ahora y siempre, y por los siglos de los siglos.</p>
           <p class="rubric">Lector:</p>
@@ -286,22 +453,22 @@
           <p class="rubric">Teotokion:</p>
           <p>Ábrenos la puerta de la misericordia, bendita Theotokos, para que esperando en ti no perezcamos, sino que por ti seamos librados de las adversidades; porque Tú eres la salvación del pueblo cristiano.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">18</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">18</span>
+        <div class="step-content">
           <p class="rubric">Lector:</p>
           <p>Señor, ten piedad. (40 veces)</p>
           <p>Gloria al Padre y al Hijo y al Espíritu Santo, ahora y siempre, y por los siglos de los siglos. Amén.</p>
           <p>Más honorable que los querubines, e incomparablemente más gloriosa que los serafines, que sin corrupción diste a luz a Dios el Verbo: a ti, la verdadera Theotokos, te magnificamos.</p>
           <p>En el nombre del Señor, bendice, padre.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="step-card">
-        <span class="step-num">19</span>
-        <div class="step-body">
+      <div class="card-step">
+        <span class="step-index">19</span>
+        <div class="step-content">
           <p class="rubric">Sacerdote (Apolisis / Despido):</p>
           <p>Dios tenga misericordia de nosotros y nos bendiga, haga resplandecer su rostro sobre nosotros y tenga de nosotros misericordia.</p>
           <p class="instruction">Petición de perdón mutuo:</p>
@@ -314,119 +481,120 @@
           <p class="rubric">Todos:</p>
           <p>Amén.</p>
         </div>
-      </section>
+      </div>
     </div>
 
   </main>
 
   <script>
-    // Inicialización al cargar el DOM completo
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. Configurar eventos de navegación entre pestañas
-      const navButtons = document.querySelectorAll('.nav-btn');
-      navButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const targetId = btn.getAttribute('data-target');
-          switchSection(targetId, btn);
+    // LÓGICA DE CONTROL TOTAL
+    (function() {
+      // 1. Manejo de Pestañas
+      const tabs = [
+        { btn: document.getElementById('btn-tab-1'), pane: document.getElementById('pane-1') },
+        { btn: document.getElementById('btn-tab-2'), pane: document.getElementById('pane-2') },
+        { btn: document.getElementById('btn-tab-3'), pane: document.getElementById('pane-3') },
+        { btn: document.getElementById('btn-tab-4'), pane: document.getElementById('pane-4') }
+      ];
+
+      tabs.forEach((tab, index) => {
+        if (!tab.btn) return;
+        tab.btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          stopAllSpeech();
+          
+          tabs.forEach(t => {
+            t.btn.classList.remove('is-active');
+            t.pane.classList.remove('is-visible');
+          });
+
+          tab.btn.classList.add('is-active');
+          tab.pane.classList.add('is-visible');
+          window.scrollTo({ top: 90, behavior: 'smooth' });
         });
       });
 
-      // 2. Configurar eventos de botones de audio
-      const audioButtons = document.querySelectorAll('.audio-btn');
-      audioButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const targetSectionId = btn.getAttribute('data-audio-target');
-          togglePlayText(targetSectionId, btn);
+      // 2. Manejo de Audio (SpeechSynthesis)
+      const audioBtns = [
+        { btn: document.getElementById('audio-btn-1'), pane: document.getElementById('pane-1') },
+        { btn: document.getElementById('audio-btn-2'), pane: document.getElementById('pane-2') },
+        { btn: document.getElementById('audio-btn-3'), pane: document.getElementById('pane-3') },
+        { btn: document.getElementById('audio-btn-4'), pane: document.getElementById('pane-4') }
+      ];
+
+      function stopAllSpeech() {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+        }
+        audioBtns.forEach(item => {
+          if (item.btn) {
+            item.btn.classList.remove('is-playing');
+            item.btn.innerHTML = '🔊 <span>Escuchar</span>';
+          }
+        });
+      }
+
+      audioBtns.forEach(item => {
+        if (!item.btn) return;
+        item.btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          if (!('speechSynthesis' in window)) {
+            alert('La síntesis de voz no está disponible en este navegador.');
+            return;
+          }
+
+          // Si ya está reproduciendo, detenerlo
+          if (item.btn.classList.contains('is-playing')) {
+            stopAllSpeech();
+            return;
+          }
+
+          stopAllSpeech();
+
+          // Extraer texto
+          const paragraphs = item.pane.querySelectorAll('.step-content');
+          let textBuffer = "";
+          paragraphs.forEach(p => {
+            textBuffer += p.innerText.trim() + ".\n ";
+          });
+
+          if (!textBuffer.trim()) return;
+
+          const utterance = new SpeechSynthesisUtterance(textBuffer);
+          utterance.lang = 'es-ES';
+          utterance.rate = 0.95;
+
+          const voices = window.speechSynthesis.getVoices();
+          const esVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('es'));
+          if (esVoice) utterance.voice = esVoice;
+
+          utterance.onstart = function() {
+            item.btn.classList.add('is-playing');
+            item.btn.innerHTML = '⏹️ <span>Detener</span>';
+          };
+
+          utterance.onend = function() {
+            stopAllSpeech();
+          };
+
+          utterance.onerror = function() {
+            stopAllSpeech();
+          };
+
+          window.speechSynthesis.speak(utterance);
         });
       });
-    });
 
-    function switchSection(sectionId, clickedBtn) {
-      // Detener cualquier audio en reproducción
-      stopAudio();
-
-      // Ocultar todas las secciones
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('show'));
-
-      // Desactivar todos los botones de navegación
-      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-
-      // Mostrar la sección seleccionada y activar su botón
-      const targetSec = document.getElementById(sectionId);
-      if (targetSec) targetSec.classList.add('show');
-      if (clickedBtn) clickedBtn.classList.add('active');
-
-      // Desplazar al inicio suavemente
-      window.scrollTo({ top: 90, behavior: 'smooth' });
-    }
-
-    function togglePlayText(containerId, btn) {
-      if (!('speechSynthesis' in window)) {
-        alert("Tu navegador no soporta la síntesis de voz nativa.");
-        return;
+      // Desregistrar cualquier service worker viejo que esté atrapando la página
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for (let registration of registrations) {
+            registration.unregister();
+          }
+        });
       }
-
-      // Si el botón presionado ya está reproduciendo, detenerlo
-      if (btn.classList.contains('playing')) {
-        stopAudio();
-        return;
-      }
-
-      // Detener cualquier lectura previa antes de iniciar una nueva
-      stopAudio();
-
-      const container = document.getElementById(containerId);
-      if (!container) return;
-
-      const textCards = container.querySelectorAll('.step-body');
-      let textToRead = "";
-      textCards.forEach(card => {
-        textToRead += card.innerText.trim() + ".
- ";
-      });
-
-      if (!textToRead.trim()) return;
-
-      const utterance = new SpeechSynthesisUtterance(textToRead);
-      utterance.lang = 'es-ES';
-      utterance.rate = 0.95;
-
-      // Cargar voces en español de forma asíncrona y segura
-      const voices = window.speechSynthesis.getVoices();
-      if (voices.length > 0) {
-        const esVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('es'));
-        if (esVoice) utterance.voice = esVoice;
-      }
-
-      utterance.onstart = () => {
-        btn.classList.add('playing');
-        btn.querySelector('.icon').textContent = '⏹️';
-        btn.querySelector('.label').textContent = 'Detener';
-      };
-
-      utterance.onend = () => stopAudio();
-      utterance.onerror = () => stopAudio();
-
-      window.speechSynthesis.speak(utterance);
-    }
-
-    function stopAudio() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
-      document.querySelectorAll('.audio-btn').forEach(b => {
-        b.classList.remove('playing');
-        b.querySelector('.icon').textContent = '🔊';
-        b.querySelector('.label').textContent = 'Escuchar';
-      });
-    }
-
-    // Registro del Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js');
-      });
-    }
+    })();
   </script>
 </body>
 </html>
