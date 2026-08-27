@@ -18,19 +18,19 @@
     <p class="subtitle">Vladyka Benito</p>
   </header>
 
-  <!-- BARRA DE BOTONES SUPERIOR -->
+  <!-- BARRA DE NAVEGACIÓN SUPERIOR EN UNA SOLA LÍNEA -->
   <nav class="tabs-nav-bar">
     <div class="tabs-container">
-      <button class="nav-btn active" id="btn-iniciacion" onclick="switchSection('sec-iniciacion', 'btn-iniciacion')">
+      <button type="button" class="nav-btn active" data-target="sec-iniciacion">
         1. INICIACIÓN
       </button>
-      <button class="nav-btn" id="btn-salmos" onclick="switchSection('sec-salmos', 'btn-salmos')">
+      <button type="button" class="nav-btn" data-target="sec-salmos">
         2. SALMOS
       </button>
-      <button class="nav-btn" id="btn-conclusion" onclick="switchSection('sec-conclusion', 'btn-conclusion')">
+      <button type="button" class="nav-btn" data-target="sec-conclusion">
         3. CONCLUSIÓN
       </button>
-      <button class="nav-btn" id="btn-despedida" onclick="switchSection('sec-despedida', 'btn-despedida')">
+      <button type="button" class="nav-btn" data-target="sec-despedida">
         4. DESPEDIDA
       </button>
     </div>
@@ -42,7 +42,7 @@
     <div id="sec-iniciacion" class="tab-content show">
       <div class="indicator-row">
         <div class="section-indicator">INICIACIÓN · Pasos 1 - 7</div>
-        <button class="audio-btn" onclick="togglePlayText('sec-iniciacion', this)">
+        <button type="button" class="audio-btn" data-audio-target="sec-iniciacion">
           <span class="icon">🔊</span> <span class="label">Escuchar</span>
         </button>
       </div>
@@ -120,7 +120,7 @@
     <div id="sec-salmos" class="tab-content">
       <div class="indicator-row">
         <div class="section-indicator">SALMOS · Pasos 8 - 11</div>
-        <button class="audio-btn" onclick="togglePlayText('sec-salmos', this)">
+        <button type="button" class="audio-btn" data-audio-target="sec-salmos">
           <span class="icon">🔊</span> <span class="label">Escuchar</span>
         </button>
       </div>
@@ -189,7 +189,7 @@
     <div id="sec-conclusion" class="tab-content">
       <div class="indicator-row">
         <div class="section-indicator">CONCLUSIÓN · Pasos 12 - 15</div>
-        <button class="audio-btn" onclick="togglePlayText('sec-conclusion', this)">
+        <button type="button" class="audio-btn" data-audio-target="sec-conclusion">
           <span class="icon">🔊</span> <span class="label">Escuchar</span>
         </button>
       </div>
@@ -251,7 +251,7 @@
     <div id="sec-despedida" class="tab-content">
       <div class="indicator-row">
         <div class="section-indicator">DESPEDIDA · Conclusión Litúrgica</div>
-        <button class="audio-btn" onclick="togglePlayText('sec-despedida', this)">
+        <button type="button" class="audio-btn" data-audio-target="sec-despedida">
           <span class="icon">🔊</span> <span class="label">Escuchar</span>
         </button>
       </div>
@@ -320,68 +320,82 @@
   </main>
 
   <script>
-    function switchSection(sectionId, btnId) {
-      // Detener audio al cambiar de sección
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        resetAudioButtons();
-      }
+    // Inicialización al cargar el DOM completo
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Configurar eventos de navegación entre pestañas
+      const navButtons = document.querySelectorAll('.nav-btn');
+      navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-target');
+          switchSection(targetId, btn);
+        });
+      });
 
-      // Ocultar contenidos
-      const contents = document.querySelectorAll('.tab-content');
-      contents.forEach(content => content.classList.remove('show'));
+      // 2. Configurar eventos de botones de audio
+      const audioButtons = document.querySelectorAll('.audio-btn');
+      audioButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetSectionId = btn.getAttribute('data-audio-target');
+          togglePlayText(targetSectionId, btn);
+        });
+      });
+    });
 
-      // Desactivar botones de navegación
-      const buttons = document.querySelectorAll('.nav-btn');
-      buttons.forEach(btn => btn.classList.remove('active'));
+    function switchSection(sectionId, clickedBtn) {
+      // Detener cualquier audio en reproducción
+      stopAudio();
 
-      // Mostrar seleccionado
-      const targetContent = document.getElementById(sectionId);
-      const targetButton = document.getElementById(btnId);
+      // Ocultar todas las secciones
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('show'));
 
-      if (targetContent) targetContent.classList.add('show');
-      if (targetButton) targetButton.classList.add('active');
+      // Desactivar todos los botones de navegación
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
 
-      window.scrollTo({ top: 110, behavior: 'smooth' });
+      // Mostrar la sección seleccionada y activar su botón
+      const targetSec = document.getElementById(sectionId);
+      if (targetSec) targetSec.classList.add('show');
+      if (clickedBtn) clickedBtn.classList.add('active');
+
+      // Desplazar al inicio suavemente
+      window.scrollTo({ top: 90, behavior: 'smooth' });
     }
 
     function togglePlayText(containerId, btn) {
       if (!('speechSynthesis' in window)) {
-        alert("La reproducción de voz no está soportada en este navegador.");
+        alert("Tu navegador no soporta la síntesis de voz nativa.");
         return;
       }
 
-      // Si ya está reproduciendo esta misma sección, detener
-      if (window.speechSynthesis.speaking && btn.classList.contains('playing')) {
-        window.speechSynthesis.cancel();
-        resetAudioButtons();
+      // Si el botón presionado ya está reproduciendo, detenerlo
+      if (btn.classList.contains('playing')) {
+        stopAudio();
         return;
       }
 
-      // Cancelar cualquier lectura previa
-      window.speechSynthesis.cancel();
-      resetAudioButtons();
+      // Detener cualquier lectura previa antes de iniciar una nueva
+      stopAudio();
 
       const container = document.getElementById(containerId);
       if (!container) return;
 
       const textCards = container.querySelectorAll('.step-body');
-      let fullText = "";
+      let textToRead = "";
       textCards.forEach(card => {
-        fullText += card.innerText + ".
+        textToRead += card.innerText.trim() + ".
  ";
       });
 
-      if (!fullText.trim()) return;
+      if (!textToRead.trim()) return;
 
-      const utterance = new SpeechSynthesisUtterance(fullText);
+      const utterance = new SpeechSynthesisUtterance(textToRead);
       utterance.lang = 'es-ES';
-      utterance.rate = 0.95; // Ritmo pausado litúrgico
+      utterance.rate = 0.95;
 
+      // Cargar voces en español de forma asíncrona y segura
       const voices = window.speechSynthesis.getVoices();
-      const esVoice = voices.find(v => v.lang.startsWith('es'));
-      if (esVoice) {
-        utterance.voice = esVoice;
+      if (voices.length > 0) {
+        const esVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('es'));
+        if (esVoice) utterance.voice = esVoice;
       }
 
       utterance.onstart = () => {
@@ -390,26 +404,24 @@
         btn.querySelector('.label').textContent = 'Detener';
       };
 
-      utterance.onend = () => {
-        resetAudioButtons();
-      };
-
-      utterance.onerror = () => {
-        resetAudioButtons();
-      };
+      utterance.onend = () => stopAudio();
+      utterance.onerror = () => stopAudio();
 
       window.speechSynthesis.speak(utterance);
     }
 
-    function resetAudioButtons() {
-      const buttons = document.querySelectorAll('.audio-btn');
-      buttons.forEach(b => {
+    function stopAudio() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      document.querySelectorAll('.audio-btn').forEach(b => {
         b.classList.remove('playing');
         b.querySelector('.icon').textContent = '🔊';
         b.querySelector('.label').textContent = 'Escuchar';
       });
     }
 
+    // Registro del Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js');
